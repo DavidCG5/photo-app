@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { HomePage } from './home.page';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { GalleryPageRoutingModule } from './gallery-routing.module';
+import { GalleryPage } from './gallery.page';
+
 
 
 @NgModule({
@@ -13,8 +14,9 @@ import { HomePageRoutingModule } from './home-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    GalleryPageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [GalleryPage]
+
 })
-export class HomePageModule {}
+export class GalleryPageModule {}

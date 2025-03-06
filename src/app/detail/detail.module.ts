@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { HomePage } from './home.page';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { DetailPageRoutingModule } from './detail-routing.module';
+import { DetailPage } from './detail.page';
+
 
 
 @NgModule({
@@ -13,8 +14,8 @@ import { HomePageRoutingModule } from './home-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    DetailPageRoutingModule
   ],
-  declarations: [HomePage]
+ declarations: [DetailPage]
 })
-export class HomePageModule {}
+export class DetailPageModule {}
