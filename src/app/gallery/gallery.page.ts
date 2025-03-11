@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import {PhotosService} from './../services/photos.service'
+import { FirebaseService } from '../services/firebase.service';
+import { PhotosService } from '../services/photos.service';
+import { PhotoI } from '../services/models/photos.models';
 
 @Component({
   selector: 'app-gallery',
@@ -8,17 +10,27 @@ import {PhotosService} from './../services/photos.service'
   standalone: false,
 })
 export class GalleryPage {
-
-  photos: string[] = [];
+  photos: PhotoI[] = [];
 
   constructor(
+    private firebaseService: FirebaseService,
     private photosService: PhotosService
-  ) { 
-    this.photos = this.photosService.photos;
+  ) {
+    this.loadPhotos();
   }
 
+  loadPhotos() {
+    this.firebaseService
+      .getCollectionChanges<PhotoI>('fotos')
+      .subscribe((data) => {
+        if (data) {
+          this.photos = data;
+        }
+      });
+  }
 
-  async takePhoto(){
+  async takePhoto() {
     await this.photosService.addNewPhoto();
+    this.loadPhotos();
   }
 }
