@@ -6,12 +6,21 @@ import {
   addDoc,
   serverTimestamp,
 } from '@angular/fire/firestore';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PhotosService {
-  constructor(private firestore: Firestore) {}
+  private _storage: Storage | null = null;
+
+  constructor(private firestore: Firestore, private storage: Storage) {
+    this.init();
+  }
+
+  async init() {
+    this._storage = await this.storage.create();
+  }
 
   async addNewPhoto() {
     const capturedPhoto = await Camera.getPhoto({
@@ -27,8 +36,20 @@ export class PhotosService {
         createdAt: serverTimestamp(),
       };
 
+      // Guardar en Firestore
       const photosCollection = collection(this.firestore, 'fotos');
       await addDoc(photosCollection, newPhoto);
+
+      // Guardar localmente
+      let storedPhotos = (await this._storage?.get('photos')) || [];
+      storedPhotos.unshift(newPhoto);
+      await this._storage?.set('photos', storedPhotos);
+      console.log("Fotos guardadas localmente:", storedPhotos); // 👈 Ver en consola
+
     }
+  }
+
+  async getLocalPhotos() {
+    return (await this._storage?.get('photos')) || [];
   }
 }
